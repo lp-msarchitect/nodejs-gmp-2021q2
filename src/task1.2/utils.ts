@@ -1,7 +1,9 @@
 import csv from 'csvtojson';
 import path from 'path';
 import stream from 'stream';
-import { createReadStream, createWriteStream, PathLike, promises as fsp } from 'fs';
+import os from 'os';
+
+import { createReadStream, createWriteStream, PathLike, statSync, promises as fsp } from 'fs';
 
 export const transformCSVFile = (csvFilePath: PathLike, txtFilePath: PathLike): void => {
   try {
@@ -17,7 +19,7 @@ export const transformCSVFile = (csvFilePath: PathLike, txtFilePath: PathLike): 
         strData = this.invalidLine + strData;
       }
 
-      const lines = strData.split('\n');
+      const lines = strData.split(os.EOL);
 
       this.invalidLine = lines.pop();
       lines.forEach((line: string) => {
@@ -47,6 +49,9 @@ export const transformCSVFile = (csvFilePath: PathLike, txtFilePath: PathLike): 
 };
 
 export const getCSVFiles = async (): Promise<string[]> => {
-  const files: string[] = await fsp.readdir(path.resolve(__dirname, '.csv'));
-  return files.filter((file) => path.extname(file) === '.csv');
+  const paths: string[] = await fsp.readdir(path.resolve(__dirname, '.csv'));
+  const filesPaths = paths.filter(
+    (filePath) => !statSync(path.resolve(__dirname, '.csv', filePath)).isDirectory(),
+  );
+  return filesPaths.filter((file) => path.extname(file) === '.csv');
 };
