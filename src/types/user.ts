@@ -18,3 +18,10 @@ export type UserRequest = {
   password: string;
   age: number;
 };
+
+export type UserUpdateRequest = {
+  id: string;
+  login?: string;
+  password?: string;
+  age?: number;
+};
