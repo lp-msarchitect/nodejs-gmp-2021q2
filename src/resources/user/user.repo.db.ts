@@ -1,13 +1,14 @@
+import { v4 as uuidv4 } from 'uuid';
 import { users } from '../../db/users';
-import { User, UserUpdateRequest } from 'types/user';
+import { User, UserRequest, UserUpdateRequest } from 'types/user';
 
-export const getUserById = (id: string): User | null =>
+const getUserById = (id: string): User | null =>
   users.find((user) => user.id === id && !user.isDeleted) || null;
 
-export const getUsersLoginSubstring = (subStr: string): User[] =>
+const getUsersLoginSubstring = (subStr: string): User[] =>
   users.filter((user) => user.login.includes(subStr) && !user.isDeleted);
 
-export const updateUser = (options: UserUpdateRequest): User | null => {
+const updateUser = (options: UserUpdateRequest): User | null => {
   const index = users.findIndex((user) => user.id === options.id && !user.isDeleted);
   if (index !== -1) {
     const newUser = {
@@ -21,8 +22,23 @@ export const updateUser = (options: UserUpdateRequest): User | null => {
   return null;
 };
 
-export const deleteUser = (id: string): boolean => {
+const createUser = (user: UserRequest): User => {
+  const { login, password, age } = user;
+  const newUser = {
+    id: uuidv4(),
+    login,
+    password,
+    age,
+    isDeleted: false,
+  };
+  users.push(newUser);
+  return newUser;
+};
+
+const deleteUser = (id: string): boolean => {
   const user = users.find((user) => user.id === id);
   if (user) user.isDeleted = true;
   return Boolean(user);
 };
+
+export default { getUserById, getUsersLoginSubstring, updateUser, deleteUser, createUser };

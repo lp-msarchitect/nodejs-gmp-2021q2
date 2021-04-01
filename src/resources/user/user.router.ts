@@ -1,9 +1,10 @@
 import { Request, Response, Router } from 'express';
-
 export const usersRouter = Router();
 
 usersRouter.get('/', (req, res, next) => {
-  res.send('All users!');
+  const { loginSubstring = '', limit = 10 } = req.query;
+
+  res.send({ loginSubstring, limit });
 });
 
 usersRouter.post('/', (req, res, next) => {
