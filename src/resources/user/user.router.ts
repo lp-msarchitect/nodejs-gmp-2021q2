@@ -1,4 +1,5 @@
 import { Request, Response, Router } from 'express';
+import userService from './user.service';
 export const usersRouter = Router();
 
 usersRouter.get('/', (req, res, next) => {
@@ -13,7 +14,8 @@ usersRouter.post('/', (req, res, next) => {
 
 usersRouter.get('/:id', (req, res, next) => {
   const { id } = req.params;
-  res.send(`Get user by id ${id}`);
+  const user = userService.getUserById(id);
+  res.status(200).json(user);
 });
 
 usersRouter.post('/:id', (req, res, next) => {
