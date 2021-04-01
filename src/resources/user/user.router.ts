@@ -23,7 +23,10 @@ usersRouter.get('/:id', (req, res, next) => {
 
 usersRouter.post('/:id', (req, res, next) => {
   const { id } = req.params;
-  res.send(`Update user by id ${id}`);
+  const { login, age, password } = req.body;
+  userService.updateUser({ id, login, age, password });
+  const user = userService.getUserById(id);
+  res.status(200).json(user);
 });
 
 usersRouter.delete('/:id', (req, res, next) => {

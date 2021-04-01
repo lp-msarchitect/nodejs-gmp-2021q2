@@ -1,4 +1,4 @@
-import { UserRequest, UserResponse } from '../../types/user';
+import { UserRequest, UserResponse, UserUpdateRequest } from '../../types/user';
 import userRepo from './user.repo.db';
 
 export const getUserById = (id: string): UserResponse | null => {
@@ -20,21 +20,14 @@ export const getUsersList = (loginSubstr = '', limit?: number): UserResponse[] =
     .map(({ id, login, age }) => ({ id, login, age }));
 
 export const createUser = (user: UserRequest): UserResponse => {
-  const { id, login, age } = userRepo.createUser(user);
-  return {
-    id,
-    login,
-    age,
-  };
+  const { id } = userRepo.createUser(user);
+  return getUserById(id);
 };
 
-export const updateUser = (user: UserRequest): UserResponse => {
-  const { id, login, age } = user;
-  return {
-    id,
-    login,
-    age,
-  };
+export const updateUser = (user: UserUpdateRequest): UserResponse => {
+  const { id } = user;
+  userRepo.updateUser(user);
+  return getUserById(id);
 };
 
 export const deleteUser = (id: string): string => {
