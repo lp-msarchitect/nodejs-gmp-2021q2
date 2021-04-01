@@ -9,7 +9,10 @@ usersRouter.get('/', (req, res, next) => {
 });
 
 usersRouter.post('/', (req, res, next) => {
-  res.send('Create new user');
+  const { password, login, age } = req.body;
+  const { id } = userService.createUser({ password, login, age });
+  const user = userService.getUserById(id);
+  res.status(200).json(user);
 });
 
 usersRouter.get('/:id', (req, res, next) => {
