@@ -26,8 +26,8 @@ export const createUser = (user: UserRequest): UserResponse => {
 
 export const updateUser = (user: UserUpdateRequest): UserResponse => {
   const { id } = user;
-  userRepo.updateUser(user);
-  return getUserById(id);
+  const newUser = userRepo.updateUser(user);
+  return newUser ? getUserById(id) : null;
 };
 
 export const deleteUser = (id: string): boolean => {
