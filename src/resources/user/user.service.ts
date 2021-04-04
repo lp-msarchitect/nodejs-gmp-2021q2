@@ -31,7 +31,7 @@ export const updateUser = (user: UserUpdateRequest): UserResponse => {
 };
 
 export const deleteUser = (id: string): string => {
-  return `delete user ${id}`;
+  userRepo.deleteUser(id);
 };
 
 export default {
