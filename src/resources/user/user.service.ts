@@ -30,8 +30,8 @@ export const updateUser = (user: UserUpdateRequest): UserResponse => {
   return getUserById(id);
 };
 
-export const deleteUser = (id: string): string => {
-  userRepo.deleteUser(id);
+export const deleteUser = (id: string): boolean => {
+  return userRepo.deleteUser(id);
 };
 
 export default {

@@ -12,13 +12,13 @@ usersRouter.post('/', (req, res, next) => {
   const { password, login, age } = req.body;
   const { id } = userService.createUser({ password, login, age });
   const user = userService.getUserById(id);
-  user ? res.status(200).json(user) : res.status(404).send(`user ${id} not found`);
+  res.status(200).json(user);
 });
 
 usersRouter.get('/:id', (req, res, next) => {
   const { id } = req.params;
   const user = userService.getUserById(id);
-  res.status(200).json(user);
+  user ? res.status(200).json(user) : res.status(404).send(`user ${id} not found`);
 });
 
 usersRouter.put('/:id', (req, res, next) => {
@@ -31,6 +31,7 @@ usersRouter.put('/:id', (req, res, next) => {
 
 usersRouter.delete('/:id', (req, res, next) => {
   const { id } = req.params;
-  userService.deleteUser(id);
-  res.send(`Delete user by id ${id}`);
+  userService.deleteUser(id)
+    ? res.status(200).send(`User ${id} was deleted`)
+    : res.status(404).send(`user ${id} not found`);
 });

@@ -36,7 +36,7 @@ const createUser = (user: UserRequest): User => {
 };
 
 const deleteUser = (id: string): boolean => {
-  const user = users.find((user) => user.id === id);
+  const user = users.find((user) => user.id === id && !user.isDeleted);
   if (user) user.isDeleted = true;
   return Boolean(user);
 };
