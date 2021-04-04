@@ -21,7 +21,7 @@ usersRouter.get('/:id', (req, res, next) => {
   res.status(200).json(user);
 });
 
-usersRouter.post('/:id', (req, res, next) => {
+usersRouter.put('/:id', (req, res, next) => {
   const { id } = req.params;
   const { login, age, password } = req.body;
   userService.updateUser({ id, login, age, password });
