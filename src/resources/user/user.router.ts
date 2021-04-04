@@ -12,7 +12,7 @@ usersRouter.post('/', (req, res, next) => {
   const { password, login, age } = req.body;
   const { id } = userService.createUser({ password, login, age });
   const user = userService.getUserById(id);
-  res.status(200).json(user);
+  user ? res.status(200).json(user) : res.status(404).send(`user ${id} not found`);
 });
 
 usersRouter.get('/:id', (req, res, next) => {
