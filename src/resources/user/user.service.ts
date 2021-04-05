@@ -17,6 +17,11 @@ export const getUsersList = (loginSubstr = '', limit?: number): UserResponse[] =
   userRepo
     .getUsersLoginSubstring(loginSubstr)
     .slice(0, limit)
+    .sort((a, b) => {
+      const x = a.login ? a.login.toLowerCase() : '';
+      const y = b.login ? b.login.toLowerCase() : '';
+      return x.localeCompare(y, 'base', { ignorePunctuation: true });
+    })
     .map(({ id, login, age }) => ({ id, login, age }));
 
 export const createUser = (user: UserRequest): UserResponse => {
