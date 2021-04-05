@@ -13,7 +13,9 @@
     "tsc-check": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "task1": "nodemon --no-stdin -x 'node -r ts-node/register ./src/task1.1/index.ts'",
+    "task2": "nodemon --no-stdin -x 'node -r ts-node/register ./src/task1.2/index.ts'"
   },
   "repository": {
     "type": "git",
@@ -101,6 +103,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "joi": "^17.4.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "csvtojson": "^2.0.10"
   }
 }
