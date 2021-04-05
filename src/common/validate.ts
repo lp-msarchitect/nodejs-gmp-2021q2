@@ -15,6 +15,6 @@ export const validate = (scheme: Joi.Schema) => (
 
 export const userScheme = Joi.object({
   login: Joi.string().required(),
-  password: Joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]')),
+  password: Joi.string().required().alphanum(),
   age: Joi.number().integer().min(4).max(130).required(),
 });
