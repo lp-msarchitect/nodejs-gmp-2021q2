@@ -1,17 +1,18 @@
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { userModel } from '../resources/user';
-
-const models = [userModel];
+import { users } from './users';
 
 export const sequelize = new Sequelize('postgresql://postgres@localhost/nmp');
 
-export const connectToDB = async (): Promise<Sequelize> => {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-    models.forEach((model) => model(sequelize, DataTypes));
-    return sequelize;
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+export const models = {
+  User: userModel(sequelize, DataTypes),
+};
+
+export const seedDB = async () => {
+  await sequelize.sync({ force: true });
+  await Promise.all(
+    users.map((user) => {
+      models.User.create(user);
+    }),
+  );
 };

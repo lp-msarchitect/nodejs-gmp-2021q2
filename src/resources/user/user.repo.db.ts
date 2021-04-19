@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { users } from '../../db/users';
 import { User, UserRequest, UserUpdateRequest } from 'types/user';
+
+const users: User[] = [];
 
 const getUserById = (id: string): User | null =>
   users.find((user) => user.id === id && !user.isDeleted) || null;

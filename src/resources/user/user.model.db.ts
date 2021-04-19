@@ -1,6 +1,6 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+import { Model } from 'sequelize';
 
-export const userModel = (seq: Sequelize, dataTypes: typeof DataTypes): typeof Model => {
+export const userModel = (seq: any, dataTypes: any) => {
   class User extends Model {}
   User.init(
     {
@@ -25,7 +25,7 @@ export const userModel = (seq: Sequelize, dataTypes: typeof DataTypes): typeof M
     {
       modelName: 'User',
       sequelize: seq,
-      tableName: 'Users',
+      tableName: 'users',
     },
   );
   return User;
