@@ -4,9 +4,9 @@ import { validate, userScheme } from '../../common/validate';
 
 export const usersRouter = Router();
 
-usersRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
+usersRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   const { loginSubstring = '', limit = 10 } = req.query;
-  const userList = userService.getUsersList(String(loginSubstring), Number(limit));
+  const userList = await userService.getUsersList(String(loginSubstring), Number(limit));
   res.json(userList);
 });
 
