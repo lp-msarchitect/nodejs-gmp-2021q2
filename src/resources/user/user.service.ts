@@ -44,7 +44,12 @@ export const updateUser = async (user: UserUpdateRequest) => {
   }
 };
 
-export const deleteUser = async (id: string) => (await userRepo.deleteUser(id)) > 0;
+export const deleteUser = async (id: string) => {
+  const count = await userRepo.deleteUser(id);
+  console.log(count);
+
+  return count > 0;
+};
 
 export default {
   getUserById,

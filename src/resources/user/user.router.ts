@@ -37,9 +37,9 @@ usersRouter.put(
   },
 );
 
-usersRouter.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
+usersRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  userService.deleteUser(id)
+  (await userService.deleteUser(id))
     ? res.send(`User ${id} was deleted`)
     : res.status(404).send(`user ${id} not found`);
 });
