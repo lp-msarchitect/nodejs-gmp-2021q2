@@ -1,38 +1,39 @@
-import { Model } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { IUserAttributes, TUserCreationAttributes } from 'types/user';
+import { sequelize } from '../../db/db.client';
 
-export const userModel = (seq: any, dataTypes: any) => {
-  class User extends Model {
-    id!: string;
-    login!: string;
-    password!: string;
-    age!: number;
-  }
+export class User
+  extends Model<IUserAttributes, TUserCreationAttributes>
+  implements IUserAttributes {
+  public id: string;
+  public login!: string;
+  public password!: string;
+  public age!: number;
+}
 
-  User.init(
-    {
-      id: {
-        type: dataTypes.UUID,
-        defaultValue: dataTypes.UUIDV4,
-        primaryKey: true,
-      },
-      login: {
-        type: dataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: dataTypes.STRING,
-        allowNull: false,
-      },
-      age: {
-        type: dataTypes.SMALLINT,
-        allowNull: false,
-      },
+User.init(
+  {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true,
     },
-    {
-      modelName: 'User',
-      sequelize: seq,
-      tableName: 'users',
+    login: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-  );
-  return User;
-};
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    age: {
+      type: DataTypes.SMALLINT,
+      allowNull: false,
+    },
+  },
+  {
+    modelName: 'User',
+    sequelize,
+    tableName: 'users',
+  },
+);

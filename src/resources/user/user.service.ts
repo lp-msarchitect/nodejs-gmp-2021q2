@@ -1,8 +1,7 @@
-import { isDate } from 'node:util';
-import { UserRequest, UserResponse, UserUpdateRequest } from '../../types/user';
+import { TUserRequest, TUserResponse, TUserUpdateRequest } from 'types/user';
 import userRepo from './user.repo.db';
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string): Promise<TUserResponse> => {
   const user = await userRepo.getUserById(id);
   if (user !== null) {
     return {
@@ -14,7 +13,7 @@ export const getUserById = async (id: string) => {
   return null;
 };
 
-export const getUsersList = async (loginSubstr = '', limit?: number) => {
+export const getUsersList = async (loginSubstr = '', limit?: number): Promise<TUserResponse[]> => {
   const users = await userRepo.getUsersLoginSubstring(loginSubstr, limit || null);
   return users
     .sort((a, b) => {
@@ -25,13 +24,13 @@ export const getUsersList = async (loginSubstr = '', limit?: number) => {
     .map(({ id, login, age }) => ({ id, login, age }));
 };
 
-export const createUser = async (user: UserRequest) => {
+export const createUser = async (user: TUserRequest): Promise<TUserResponse> => {
   const newUser = await userRepo.createUser(user);
   const { id, login, age } = newUser;
   return { id, login, age };
 };
 
-export const updateUser = async (user: UserUpdateRequest) => {
+export const updateUser = async (user: TUserUpdateRequest): Promise<TUserResponse> => {
   try {
     const [count, updatedUser] = await userRepo.updateUser(user);
     if (count > 0) {
@@ -44,7 +43,7 @@ export const updateUser = async (user: UserUpdateRequest) => {
   }
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string): Promise<boolean> => {
   const count = await userRepo.deleteUser(id);
   return count > 0;
 };
