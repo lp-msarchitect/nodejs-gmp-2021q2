@@ -1,6 +1,6 @@
 import express from 'express';
 import { initModels } from './db/db.client';
-import { usersRouter } from './resources/user/user.router';
+import { usersRouter } from './resources/user';
 
 const app = express();
 const port = 3000;
