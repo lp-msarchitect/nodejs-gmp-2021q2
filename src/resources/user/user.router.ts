@@ -10,16 +10,19 @@ usersRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.json(userList);
 });
 
-usersRouter.post('/', validate(userScheme), (req: Request, res: Response, next: NextFunction) => {
-  const { password, login, age } = req.body;
-  const { id } = userService.createUser({ password, login, age });
-  const user = userService.getUserById(id);
-  res.status(201).json(user);
-});
+usersRouter.post(
+  '/',
+  validate(userScheme),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { password, login, age } = req.body;
+    const user = await userService.createUser({ password, login, age });
+    res.status(201).json(user);
+  },
+);
 
-usersRouter.get('/:id', (req: Request, res: Response, next: NextFunction) => {
+usersRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  const user = userService.getUserById(id);
+  const user = await userService.getUserById(id);
   user ? res.json(user) : res.status(404).send(`user ${id} not found`);
 });
 

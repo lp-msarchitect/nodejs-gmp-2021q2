@@ -1,7 +1,13 @@
 import { Model } from 'sequelize';
 
 export const userModel = (seq: any, dataTypes: any) => {
-  class User extends Model {}
+  class User extends Model {
+    id!: string;
+    login!: string;
+    password!: string;
+    age!: number;
+  }
+
   User.init(
     {
       id: {

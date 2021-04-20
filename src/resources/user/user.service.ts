@@ -1,9 +1,10 @@
+import { isDate } from 'node:util';
 import { UserRequest, UserResponse, UserUpdateRequest } from '../../types/user';
 import userRepo from './user.repo.db';
 
-export const getUserById = (id: string): UserResponse | null => {
-  const user = userRepo.getUserById(id);
-  if (user) {
+export const getUserById = async (id: string) => {
+  const user = await userRepo.getUserById(id);
+  if (user !== null) {
     return {
       id: user.id,
       login: user.login,
@@ -13,31 +14,30 @@ export const getUserById = (id: string): UserResponse | null => {
   return null;
 };
 
-export const getUsersList = (loginSubstr = '', limit?: number): UserResponse[] =>
-  userRepo
-    .getUsersLoginSubstring(loginSubstr)
-    .slice(0, limit)
+export const getUsersList = async (loginSubstr = '', limit?: number) => {
+  const users = await userRepo.getUsersLoginSubstring(loginSubstr, limit || null);
+  return users
     .sort((a, b) => {
       const x = a.login ? a.login.toLowerCase() : '';
       const y = b.login ? b.login.toLowerCase() : '';
       return x.localeCompare(y, 'base', { ignorePunctuation: true });
     })
     .map(({ id, login, age }) => ({ id, login, age }));
-
-export const createUser = (user: UserRequest): UserResponse => {
-  const { id } = userRepo.createUser(user);
-  return getUserById(id);
 };
 
-export const updateUser = (user: UserUpdateRequest): UserResponse => {
+export const createUser = async (user: UserRequest) => {
+  const newUser = await userRepo.createUser(user);
+  const { id, login, age } = newUser;
+  return { id, login, age };
+};
+
+export const updateUser = async (user: UserUpdateRequest) => {
   const { id } = user;
   const newUser = userRepo.updateUser(user);
-  return newUser ? getUserById(id) : null;
+  return newUser ? await getUserById(id) : null;
 };
 
-export const deleteUser = (id: string): boolean => {
-  return userRepo.deleteUser(id);
-};
+export const deleteUser = async (id: string) => (await userRepo.deleteUser(id)) > 0;
 
 export default {
   getUserById,
