@@ -1,3 +1,3 @@
-import { User } from './user.model.db';
+import { User, initUserModel } from './user.model.db';
 
-export { User };
+export { User, initUserModel };

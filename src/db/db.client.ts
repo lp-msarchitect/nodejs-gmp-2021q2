@@ -1,14 +1,10 @@
 import { Sequelize } from 'sequelize';
-import { User } from '../resources/user';
-import { users } from './users';
+import { initUserModel } from '../resources/user';
 
-export const sequelize = new Sequelize('postgresql://postgres@localhost/nmp');
+export const sequelize = new Sequelize(
+  'postgres://rqyrsigd:qTOfQjQ9BBVEEnbkBjTZ3in9Yowv5q87@tai.db.elephantsql.com:5432/rqyrsigd',
+);
 
-export const seedDB = async (): Promise<void> => {
-  await sequelize.sync({ force: true });
-  await Promise.all(
-    users.map((user) => {
-      User.create(user);
-    }),
-  );
+export const initModels = (): void => {
+  initUserModel(sequelize);
 };
