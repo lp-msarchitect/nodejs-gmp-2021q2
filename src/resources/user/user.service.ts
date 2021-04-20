@@ -32,9 +32,16 @@ export const createUser = async (user: UserRequest) => {
 };
 
 export const updateUser = async (user: UserUpdateRequest) => {
-  const { id } = user;
-  const newUser = userRepo.updateUser(user);
-  return newUser ? await getUserById(id) : null;
+  try {
+    const [count, updatedUser] = await userRepo.updateUser(user);
+    if (count > 0) {
+      const { id, login, age } = updatedUser[0];
+      return { id, login, age };
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
 };
 
 export const deleteUser = async (id: string) => (await userRepo.deleteUser(id)) > 0;

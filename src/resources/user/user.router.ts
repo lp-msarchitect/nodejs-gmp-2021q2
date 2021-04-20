@@ -26,13 +26,16 @@ usersRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) 
   user ? res.json(user) : res.status(404).send(`user ${id} not found`);
 });
 
-usersRouter.put('/:id', validate(userScheme), (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params;
-  const { login, age, password } = req.body;
-  userService.updateUser({ id, login, age, password });
-  const user = userService.getUserById(id);
-  user ? res.json(user) : res.status(404).send(`user ${id} not found`);
-});
+usersRouter.put(
+  '/:id',
+  validate(userScheme),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const { login, age, password } = req.body;
+    const user = await userService.updateUser({ id, login, age, password });
+    user ? res.json(user) : res.status(404).send(`user ${id} not found`);
+  },
+);
 
 usersRouter.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;

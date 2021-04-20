@@ -18,6 +18,7 @@ const updateUser = (options: UserUpdateRequest) =>
     where: {
       id: options.id,
     },
+    returning: true,
   });
 
 const createUser = (user: UserRequest) => models.User.create(user);
