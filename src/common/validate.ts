@@ -9,12 +9,15 @@ export const validate = (scheme: Joi.Schema) => (
   const { error } = scheme.validate(req.body);
   if (error) {
     res.status(400).send(error);
+    console.log('Validation error', error);
   }
   next();
 };
 
 export const userScheme = Joi.object({
   login: Joi.string().required(),
-  password: Joi.string().required().alphanum(),
+  password: Joi.string()
+    .pattern(/^(?=.*\d)(?=.*[a-zA-Z])(?!.*\s).*$/)
+    .required(),
   age: Joi.number().integer().min(4).max(130).required(),
 });
