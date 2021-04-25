@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import userService from './user.service';
 import { validate, userScheme } from '../../common/validate';
+import { UserDto } from 'types/user';
 
 export const usersRouter = Router();
 
@@ -14,8 +15,9 @@ usersRouter.post(
   '/',
   validate(userScheme),
   async (req: Request, res: Response, next: NextFunction) => {
-    const { password, login, age } = req.body;
-    const user = await userService.createUser({ password, login, age });
+    const userDTO: UserDto = req.body;
+    // const { password, login, age } = req.body;
+    const user = await userService.createUser(userDTO);
     res.status(201).json(user);
   },
 );
@@ -30,9 +32,9 @@ usersRouter.put(
   '/:id',
   validate(userScheme),
   async (req: Request, res: Response, next: NextFunction) => {
+    const userDTO: UserDto = req.body;
     const { id } = req.params;
-    const { login, age, password } = req.body;
-    const user = await userService.updateUser({ id, login, age, password });
+    const user = await userService.updateUser({ ...userDTO, id });
     user ? res.json(user) : res.status(404).send(`user ${id} not found`);
   },
 );
