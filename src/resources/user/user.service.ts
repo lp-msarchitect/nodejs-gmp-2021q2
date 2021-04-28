@@ -19,7 +19,7 @@ export const getUsersList = async (loginSubstr = '', limit?: number): Promise<TU
     .sort((a, b) => {
       const x = a.login ? a.login.toLowerCase() : '';
       const y = b.login ? b.login.toLowerCase() : '';
-      return x.localeCompare(y, 'base', { ignorePunctuation: true });
+      return x.localeCompare(y);
     })
     .map(({ id, login, age }) => ({ id, login, age }));
 };
