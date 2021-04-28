@@ -8,8 +8,6 @@ export class User
   public login!: string;
   public password!: string;
   public age!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
 }
 
 export const initUserModel = (sequelize: Sequelize): void => {

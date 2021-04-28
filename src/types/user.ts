@@ -1,13 +1,5 @@
 import { Optional, Model } from 'sequelize/types';
 
-// export type User = {
-//   id: string;
-//   login: string;
-//   password: string;
-//   age: number;
-//   isDeleted: boolean;
-// };
-
 export interface UserDto {
   readonly id: string;
   readonly login: string;

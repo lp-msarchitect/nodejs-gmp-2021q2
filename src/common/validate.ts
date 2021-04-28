@@ -21,3 +21,10 @@ export const userScheme = Joi.object({
     .required(),
   age: Joi.number().integer().min(4).max(130).required(),
 });
+
+export const groupScheme = Joi.object({
+  name: Joi.string().required(),
+  permissions: Joi.array()
+    .items(Joi.string())
+    .has(['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']),
+});
