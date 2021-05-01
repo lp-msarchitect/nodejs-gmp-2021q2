@@ -7,6 +7,18 @@ export const sequelize = new Sequelize(
 );
 
 export const initModels = (): void => {
-  initUserModel(sequelize);
-  initGroupModel(sequelize);
+  const userModel = initUserModel(sequelize);
+  const groupModel = initGroupModel(sequelize);
+  userModel.belongsToMany(groupModel, {
+    through: 'user_group',
+    timestamps: false,
+    as: 'user',
+    foreignKey: 'user_id',
+  });
+  groupModel.belongsToMany(userModel, {
+    through: 'user_group',
+    timestamps: false,
+    as: 'group',
+    foreignKey: 'group_id',
+  });
 };

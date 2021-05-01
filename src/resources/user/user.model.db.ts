@@ -10,7 +10,7 @@ export class User
   public age!: number;
 }
 
-export const initUserModel = (sequelize: Sequelize): void => {
+export const initUserModel = (sequelize: Sequelize): typeof User => {
   User.init(
     {
       id: {
@@ -38,4 +38,5 @@ export const initUserModel = (sequelize: Sequelize): void => {
       timestamps: false,
     },
   );
+  return User;
 };

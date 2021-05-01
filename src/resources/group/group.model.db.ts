@@ -9,7 +9,7 @@ export class Group
   public permissions!: Permission[];
 }
 
-export const initGroupModel = (sequelize: Sequelize): void => {
+export const initGroupModel = (sequelize: Sequelize): typeof Group => {
   Group.init(
     {
       id: {
@@ -33,4 +33,5 @@ export const initGroupModel = (sequelize: Sequelize): void => {
       timestamps: false,
     },
   );
+  return Group;
 };
