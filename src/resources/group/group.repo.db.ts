@@ -1,5 +1,7 @@
 import { IGroupAttributes, TGroupCreationAttributes } from 'types/group';
-import { Group } from './group.model.db';
+import db from '../../db/models';
+
+const Group = db.Group;
 
 const getAll = () => Group.findAll();
 

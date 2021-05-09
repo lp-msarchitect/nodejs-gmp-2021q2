@@ -34,7 +34,7 @@ usersRouter.put(
   async (req: Request, res: Response, next: NextFunction) => {
     const userDTO: UserDto = req.body;
     const { id } = req.params;
-    const user = await userService.updateUser({ ...userDTO, id });
+    const user = await userService.updateUser({ ...userDTO, id: Number(id) });
     user ? res.json(user) : res.status(404).send(`user ${id} not found`);
   },
 );

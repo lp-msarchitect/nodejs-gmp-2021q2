@@ -4,7 +4,7 @@ import { IUserAttributes, TUserCreationAttributes } from 'types/user';
 
 module.exports = (sequelize: any, DataTypes: any): any => {
   class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
-    public id: string;
+    public id: number;
     public login!: string;
     public password!: string;
     public age!: number;

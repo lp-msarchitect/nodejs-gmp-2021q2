@@ -32,7 +32,7 @@ groupsRouter.put(
   async (req: Request, res: Response, next: NextFunction) => {
     const groupDTO: GroupDTO = req.body;
     const { id } = req.params;
-    const group = await groupService.update({ ...groupDTO, id });
+    const group = await groupService.update({ ...groupDTO, id: Number(id) });
     group ? res.json(group) : res.status(404).send(`group ${id} not found`);
   },
 );

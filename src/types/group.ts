@@ -9,13 +9,13 @@ export type Permission = 'READ' | 'WRITE' | 'DELETE' | 'SHARE' | 'UPLOAD_FILES';
 // };
 
 export interface GroupDTO {
-  readonly id: string;
+  readonly id: number;
   readonly name: string;
   readonly permissions: Permission[];
 }
 
 export interface IGroupAttributes {
-  id: string;
+  id: number;
   name: string;
   permissions: Permission[];
 }
