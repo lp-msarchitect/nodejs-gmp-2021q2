@@ -1,6 +1,5 @@
 import express from 'express';
 import db from './db/models';
-import { initModels } from './db/db.client';
 import { usersRouter } from './resources/user';
 import { groupsRouter } from './resources/group';
 
@@ -15,12 +14,10 @@ db.sequelize
   .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
+    app.listen(port, () => {
+      console.log(`Server listening at http://localhost:${port}`);
+    });
   })
   .catch((error: any) => {
     console.error('Unable to connect to the database:', error);
   });
-
-app.listen(port, () => {
-  // initModels();
-  console.log(`Server listening at http://localhost:${port}`);
-});

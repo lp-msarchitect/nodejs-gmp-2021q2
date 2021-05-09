@@ -1,10 +1,12 @@
 import { Op, WhereOperators } from 'sequelize';
 import { TUserRequest, TUserUpdateRequest } from 'types/user';
-import { User } from './user.model.db';
+import db from '../../db/models';
 
-const getUserById = (id: string): Promise<User> => User.findByPk(id);
+const User = db.User;
 
-const getUsersLoginSubstring = (subStr: string, limit: number): Promise<User[]> =>
+const getUserById = (id: string): Promise<typeof User> => User.findByPk(id);
+
+const getUsersLoginSubstring = (subStr: string, limit: number): Promise<typeof User[]> =>
   User.findAll({
     where: {
       login: <WhereOperators>{
@@ -14,7 +16,7 @@ const getUsersLoginSubstring = (subStr: string, limit: number): Promise<User[]> 
     limit: limit,
   });
 
-const updateUser = (options: TUserUpdateRequest): Promise<[number, User[]]> =>
+const updateUser = (options: TUserUpdateRequest): Promise<[number, typeof User[]]> =>
   User.update(options, {
     where: {
       id: options.id,
@@ -22,7 +24,7 @@ const updateUser = (options: TUserUpdateRequest): Promise<[number, User[]]> =>
     returning: true,
   });
 
-const createUser = (user: TUserRequest): Promise<User> => User.create(user);
+const createUser = (user: TUserRequest): Promise<typeof User> => User.create(user);
 
 const deleteUser = (id: string): Promise<number> =>
   User.destroy({
