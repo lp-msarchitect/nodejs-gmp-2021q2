@@ -9,7 +9,14 @@ module.exports = (sequelize: any, DataTypes: any): any => {
     public id: number;
     public name!: string;
     public permissions!: Permission[];
-    static associate(models: any): any {}
+    static associate(models: any): any {
+      Group.belongsToMany(models.Group, {
+        through: 'UserGroup',
+        as: 'groups',
+        foreignKey: 'groupId',
+        otherKey: 'userId',
+      });
+    }
   }
   Group.init(
     {

@@ -3,8 +3,23 @@ import { TUserRequest, TUserUpdateRequest } from 'types/user';
 import db from '../../db/models';
 
 const User = db.User;
+const Group = db.Group;
+const UserGroup = db.UserGroup;
 
-const getUserById = (id: string): Promise<typeof User> => User.findByPk(id);
+const getUserById = (id: string): Promise<typeof User> =>
+  User.findByPk(id, {
+    include: [
+      {
+        model: Group,
+        as: 'groups',
+        required: false,
+        attributes: ['id', 'name'],
+        through: {
+          model: UserGroup,
+        },
+      },
+    ],
+  });
 
 const getUsersLoginSubstring = (subStr: string, limit: number): Promise<typeof User[]> =>
   User.findAll({
@@ -14,6 +29,17 @@ const getUsersLoginSubstring = (subStr: string, limit: number): Promise<typeof U
       },
     },
     limit: limit,
+    include: [
+      {
+        model: Group,
+        as: 'groups',
+        required: false,
+        attributes: ['id', 'name'],
+        through: {
+          model: UserGroup,
+        },
+      },
+    ],
   });
 
 const updateUser = (options: TUserUpdateRequest): Promise<[number, typeof User[]]> =>

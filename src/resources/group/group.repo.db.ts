@@ -2,10 +2,38 @@ import { IGroupAttributes, TGroupCreationAttributes } from 'types/group';
 import db from '../../db/models';
 
 const Group = db.Group;
+const User = db.User;
+const UserGroup = db.UserGroup;
 
-const getAll = () => Group.findAll();
+const getAll = () =>
+  Group.findAll({
+    include: [
+      {
+        model: User,
+        as: 'users',
+        required: false,
+        attributes: ['id', 'login'],
+        through: {
+          model: UserGroup,
+        },
+      },
+    ],
+  });
 
-const getItemById = (id: string) => Group.findByPk(id);
+const getItemById = (id: string) =>
+  Group.findByPk(id, {
+    include: [
+      {
+        model: User,
+        as: 'users',
+        required: false,
+        attributes: ['id', 'login'],
+        through: {
+          model: UserGroup,
+        },
+      },
+    ],
+  });
 
 const create = (item: TGroupCreationAttributes) => Group.create(item);
 
