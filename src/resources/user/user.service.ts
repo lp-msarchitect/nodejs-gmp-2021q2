@@ -15,6 +15,8 @@ export const getUserById = async (id: string): Promise<TUserResponse> => {
 
 export const getUsersList = async (loginSubstr = '', limit?: number): Promise<TUserResponse[]> => {
   const users = await userRepo.getUsersLoginSubstring(loginSubstr, limit || null);
+  console.log('users', users);
+
   return users
     .sort((a, b) => {
       const x = a.login ? a.login.toLowerCase() : '';

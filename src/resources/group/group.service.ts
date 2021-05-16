@@ -17,4 +17,8 @@ const update = async (group: TGroupCreationAttributes) => {
 
 const remove = (id: string) => groupsRepo.remove(id);
 
-export default { getAll, getItemById, create, update, remove };
+const addUsersToGroup = (groupId: any, userIds: any) => {
+  return groupsRepo.addUsers(groupId, userIds);
+};
+
+export default { getAll, getItemById, create, update, remove, addUsersToGroup };

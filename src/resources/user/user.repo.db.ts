@@ -11,7 +11,7 @@ const getUserById = (id: string): Promise<typeof User> =>
     include: [
       {
         model: Group,
-        as: 'groups',
+        as: 'Group',
         required: false,
         attributes: ['id', 'name'],
         through: {
@@ -32,7 +32,7 @@ const getUsersLoginSubstring = (subStr: string, limit: number): Promise<typeof U
     include: [
       {
         model: Group,
-        as: 'groups',
+        as: 'Group',
         required: false,
         attributes: ['id', 'name'],
         through: {

@@ -32,10 +32,17 @@ groupsRouter.put(
   async (req: Request, res: Response, next: NextFunction) => {
     const groupDTO: GroupDTO = req.body;
     const { id } = req.params;
-    const group = await groupService.update({ ...groupDTO, id: Number(id) });
+    const group = await groupService.update({ ...groupDTO, id });
     group ? res.json(group) : res.status(404).send(`group ${id} not found`);
   },
 );
+
+groupsRouter.put('/:id/users', async (req: Request, res: Response, next: NextFunction) => {
+  const { users } = req.body;
+  const { id } = req.params;
+  const group = await groupService.addUsersToGroup(id, users);
+  group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+});
 
 groupsRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
