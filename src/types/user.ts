@@ -1,34 +1,34 @@
 import { Optional, Model } from 'sequelize/types';
 
 export interface UserDto {
-  readonly id: number;
+  readonly id: string;
   readonly login: string;
   readonly password: string;
   readonly age: number;
 }
 
 export type TUserResponse = {
-  id: number;
+  id: string;
   login: string;
   age: number;
 };
 
 export type TUserRequest = {
-  id?: number;
+  id?: string;
   login: string;
   password: string;
   age: number;
 };
 
 export type TUserUpdateRequest = {
-  id: number;
+  id: string;
   login?: string;
   password?: string;
   age?: number;
 };
 
 export interface IUserAttributes {
-  id: number;
+  id: string;
   login: string;
   password: string;
   age: number;
