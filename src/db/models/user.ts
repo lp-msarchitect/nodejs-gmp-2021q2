@@ -4,14 +4,14 @@ import { IUserAttributes, TUserCreationAttributes } from 'types/user';
 
 module.exports = (sequelize: any, DataTypes: any): any => {
   class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
-    public id: number;
+    public id: string;
     public login!: string;
     public password!: string;
     public age!: number;
     static associate(models: any): void {
       User.belongsToMany(models.Group, {
         through: 'UserGroup',
-        as: 'users',
+        as: 'Group',
         foreignKey: 'userId',
         otherKey: 'groupId',
       });
@@ -20,8 +20,7 @@ module.exports = (sequelize: any, DataTypes: any): any => {
   User.init(
     {
       id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
         primaryKey: true,
       },
       login: {
@@ -40,6 +39,7 @@ module.exports = (sequelize: any, DataTypes: any): any => {
     {
       sequelize,
       modelName: 'User',
+      tableName: 'users',
     },
   );
   return User;

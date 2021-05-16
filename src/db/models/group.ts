@@ -6,13 +6,13 @@ module.exports = (sequelize: any, DataTypes: any): any => {
   class Group
     extends Model<IGroupAttributes, TGroupCreationAttributes>
     implements IGroupAttributes {
-    public id: number;
+    public id: string;
     public name!: string;
     public permissions!: Permission[];
     static associate(models: any): any {
-      Group.belongsToMany(models.Group, {
+      Group.belongsToMany(models.User, {
         through: 'UserGroup',
-        as: 'groups',
+        as: 'User',
         foreignKey: 'groupId',
         otherKey: 'userId',
       });
@@ -21,7 +21,7 @@ module.exports = (sequelize: any, DataTypes: any): any => {
   Group.init(
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -39,6 +39,7 @@ module.exports = (sequelize: any, DataTypes: any): any => {
     {
       sequelize,
       modelName: 'Group',
+      tableName: 'groups',
     },
   );
   return Group;

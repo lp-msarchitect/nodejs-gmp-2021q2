@@ -13,12 +13,13 @@ module.exports = (sequelize: any, DataTypes: any) => {
   }
   UserGroup.init(
     {
-      userId: DataTypes.INTEGER,
-      groupId: DataTypes.INTEGER,
+      userId: DataTypes.UUID,
+      groupId: DataTypes.UUID,
     },
     {
       sequelize,
       modelName: 'UserGroup',
+      tableName: 'user_groups',
     },
   );
   return UserGroup;
