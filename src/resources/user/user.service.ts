@@ -1,4 +1,4 @@
-import { TUserRequest, TUserResponse, TUserUpdateRequest } from 'types/user';
+import { TUserCreationAttributes, TUserUpdateRequest, TUserResponse } from 'types/user';
 import userRepo from './user.repo.db';
 
 export const getUserById = async (id: string): Promise<TUserResponse> => {
@@ -26,7 +26,7 @@ export const getUsersList = async (loginSubstr = '', limit?: number): Promise<TU
     .map(({ id, login, age }) => ({ id, login, age }));
 };
 
-export const createUser = async (user: TUserRequest): Promise<TUserResponse> => {
+export const createUser = async (user: TUserCreationAttributes): Promise<TUserResponse> => {
   const newUser = await userRepo.createUser(user);
   const { id, login, age } = newUser;
   return { id, login, age };

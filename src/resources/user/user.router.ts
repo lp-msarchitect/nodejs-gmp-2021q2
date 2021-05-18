@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import userService from './user.service';
 import { validate, userScheme } from '../../common/validate';
-import { UserDto } from 'types/user';
+import { IUserAttributes } from 'types/user';
 
 export const usersRouter = Router();
 
@@ -15,8 +15,7 @@ usersRouter.post(
   '/',
   validate(userScheme),
   async (req: Request, res: Response, next: NextFunction) => {
-    const userDTO: UserDto = req.body;
-    // const { password, login, age } = req.body;
+    const userDTO: IUserAttributes = req.body;
     const user = await userService.createUser(userDTO);
     res.status(201).json(user);
   },
@@ -32,7 +31,7 @@ usersRouter.put(
   '/:id',
   validate(userScheme),
   async (req: Request, res: Response, next: NextFunction) => {
-    const userDTO: UserDto = req.body;
+    const userDTO: IUserAttributes = req.body;
     const { id } = req.params;
     const user = await userService.updateUser({ ...userDTO, id });
     user ? res.json(user) : res.status(404).send(`user ${id} not found`);

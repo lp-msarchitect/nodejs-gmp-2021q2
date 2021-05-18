@@ -1,5 +1,5 @@
 import { Op, WhereOperators } from 'sequelize';
-import { TUserRequest, TUserUpdateRequest } from 'types/user';
+import { TUserCreationAttributes, TUserUpdateRequest } from 'types/user';
 import db from '../../db/models';
 
 const User = db.User;
@@ -50,7 +50,7 @@ const updateUser = (options: TUserUpdateRequest): Promise<[number, typeof User[]
     returning: true,
   });
 
-const createUser = (user: TUserRequest): Promise<typeof User> => User.create(user);
+const createUser = (user: TUserCreationAttributes): Promise<typeof User> => User.create(user);
 
 const deleteUser = (id: string): Promise<number> =>
   User.destroy({
