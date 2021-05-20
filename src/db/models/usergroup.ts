@@ -17,7 +17,7 @@ module.exports = (sequelize: any, DataTypes: any): typeof UserGroup => {
     {
       id: {
         type: DataTypes.UUID,
-        autoIncrement: true,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
       userId: DataTypes.UUID,

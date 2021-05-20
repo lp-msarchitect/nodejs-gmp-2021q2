@@ -11,11 +11,11 @@ const getAll = (): Promise<IGroupEntity[]> =>
     include: [
       {
         model: User,
-        as: 'User',
+        as: 'users',
         required: false,
         attributes: ['id', 'login'],
         through: {
-          model: UserGroup,
+          attributes: [],
         },
       },
     ],
@@ -26,11 +26,11 @@ const getItemById = (id: string): Promise<IGroupEntity> =>
     include: [
       {
         model: User,
-        as: 'User',
+        as: 'users',
         required: false,
         attributes: ['id', 'login'],
         through: {
-          model: UserGroup,
+          attributes: [],
         },
       },
     ],

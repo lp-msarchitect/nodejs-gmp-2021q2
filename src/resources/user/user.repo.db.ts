@@ -15,7 +15,7 @@ const getUserById = (id: string): Promise<IUserEntity> =>
         required: false,
         attributes: ['id', 'name'],
         through: {
-          model: UserGroup,
+          attributes: [],
         },
       },
     ],
@@ -36,7 +36,7 @@ const getUsersLoginSubstring = (subStr: string, limit: number): Promise<IUserEnt
         required: false,
         attributes: ['id', 'name'],
         through: {
-          model: UserGroup,
+          attributes: [],
         },
       },
     ],
