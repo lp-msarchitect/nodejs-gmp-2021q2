@@ -1,13 +1,17 @@
-import { IGroupAttributes, TGroupCreationAttributes } from 'types/group';
+import { IGroupAttributes, TGroupCreationAttributes, TGroupResponse } from 'types/group';
 import groupsRepo from './group.repo.db';
 
-const getAll = () => groupsRepo.getAll();
+const getAll = async (): Promise<TGroupResponse[]> => {
+  const groups = await groupsRepo.getAll();
+  console.log(groups);
+  return groups;
+};
 
-const getItemById = (id: string) => groupsRepo.getItemById(id);
+const getItemById = (id: string): Promise<TGroupResponse> => groupsRepo.getItemById(id);
 
-const create = (group: IGroupAttributes) => groupsRepo.create(group);
+const create = (group: IGroupAttributes): Promise<TGroupResponse> => groupsRepo.create(group);
 
-const update = async (group: TGroupCreationAttributes) => {
+const update = async (group: TGroupCreationAttributes): Promise<TGroupResponse> => {
   const [count, updatedGroups] = await groupsRepo.update(group);
   if (count !== 0) {
     return updatedGroups.pop();
@@ -15,9 +19,9 @@ const update = async (group: TGroupCreationAttributes) => {
   return null;
 };
 
-const remove = (id: string) => groupsRepo.remove(id);
+const remove = (id: string): Promise<number> => groupsRepo.remove(id);
 
-const addUsersToGroup = (groupId: any, userIds: any) => {
+const addUsersToGroup = (groupId: string, userIds: string[]): Promise<TGroupResponse> => {
   return groupsRepo.addUsers(groupId, userIds);
 };
 

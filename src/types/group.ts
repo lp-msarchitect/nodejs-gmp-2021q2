@@ -16,3 +16,5 @@ export interface IGroupEntity extends IGroupAttributes {
     login: string;
   }[];
 }
+
+export type TGroupResponse = IGroupEntity;

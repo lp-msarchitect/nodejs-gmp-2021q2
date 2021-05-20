@@ -1,4 +1,4 @@
-import { IGroupAttributes, TGroupCreationAttributes } from 'types/group';
+import { IGroupAttributes, IGroupEntity, TGroupCreationAttributes } from 'types/group';
 import db from '../../db/models';
 
 const Group = db.Group;
@@ -6,7 +6,7 @@ const User = db.User;
 const UserGroup = db.UserGroup;
 const sequelize = db.sequelize;
 
-const getAll = () =>
+const getAll = (): Promise<IGroupEntity[]> =>
   Group.findAll({
     include: [
       {
@@ -21,7 +21,7 @@ const getAll = () =>
     ],
   });
 
-const getItemById = (id: string) =>
+const getItemById = (id: string): Promise<IGroupEntity> =>
   Group.findByPk(id, {
     include: [
       {
@@ -36,9 +36,9 @@ const getItemById = (id: string) =>
     ],
   });
 
-const create = (item: TGroupCreationAttributes) => Group.create(item);
+const create = (item: TGroupCreationAttributes): Promise<IGroupEntity> => Group.create(item);
 
-const update = (options: TGroupCreationAttributes) =>
+const update = (options: TGroupCreationAttributes): Promise<[number, IGroupEntity[]]> =>
   Group.update(options, {
     where: {
       id: options.id,
@@ -46,16 +46,16 @@ const update = (options: TGroupCreationAttributes) =>
     returning: true,
   });
 
-const remove = (id: string) => Group.destroy({ where: { id: id } });
+const remove = (id: string): Promise<number> => Group.destroy({ where: { id: id } });
 
-const addUsers = async (groupId: any, userIds: any) => {
+const addUsers = async (groupId: string, userIds: string[]): Promise<IGroupEntity | null> => {
   const t = await sequelize.transaction();
 
   try {
     const group = await Group.findByPk(groupId);
     if (group) {
       await Promise.all(
-        userIds.map(async (userId: any) => {
+        userIds.map(async (userId) => {
           const user = await User.findByPk(userId);
           await group.addUser(user, { transaction: t });
         }),
@@ -64,6 +64,8 @@ const addUsers = async (groupId: any, userIds: any) => {
       return await Group.findByPk(groupId);
     }
   } catch (error) {
+    console.log('error', error);
+
     await t.rollback();
     return null;
   }

@@ -10,11 +10,11 @@ export type TUserCreationAttributes = Optional<IUserAttributes, 'id'>;
 
 export type TUserUpdateRequest = Partial<IUserAttributes>;
 
-export type TUserResponse = Omit<IUserAttributes, 'password'>;
-
 export interface IUserEntity extends IUserAttributes {
   groups: {
     id: string;
     name: string;
   }[];
 }
+
+export type TUserResponse = Omit<IUserEntity, 'password'>;

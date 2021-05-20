@@ -2,21 +2,22 @@
 import { Model } from 'sequelize';
 import { IUserAttributes, TUserCreationAttributes } from 'types/user';
 
-module.exports = (sequelize: any, DataTypes: any): any => {
-  class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
-    public id: string;
-    public login!: string;
-    public password!: string;
-    public age!: number;
-    static associate(models: any): void {
-      User.belongsToMany(models.Group, {
-        through: 'UserGroup',
-        as: 'Group',
-        foreignKey: 'userId',
-        otherKey: 'groupId',
-      });
-    }
+class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
+  public id: string;
+  public login!: string;
+  public password!: string;
+  public age!: number;
+  static associate(models: any): void {
+    User.belongsToMany(models.Group, {
+      through: 'UserGroup',
+      as: 'groups',
+      foreignKey: 'userId',
+      otherKey: 'groupId',
+    });
   }
+}
+
+module.exports = (sequelize: any, DataTypes: any): typeof User => {
   User.init(
     {
       id: {

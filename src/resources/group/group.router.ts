@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, Router } from 'express';
 import groupService from './group.service';
 import { validate, groupScheme } from '../../common/validate';
-import { GroupDTO } from 'types/group';
+import { IGroupAttributes } from 'types/group';
 
 export const groupsRouter = Router();
 
@@ -20,7 +20,7 @@ groupsRouter.post(
   '/',
   validate(groupScheme),
   async (req: Request, res: Response, next: NextFunction) => {
-    const groupDTO: GroupDTO = req.body;
+    const groupDTO: IGroupAttributes = req.body;
     const group = await groupService.create(groupDTO);
     res.status(201).json(group);
   },
@@ -30,7 +30,7 @@ groupsRouter.put(
   '/:id',
   validate(groupScheme),
   async (req: Request, res: Response, next: NextFunction) => {
-    const groupDTO: GroupDTO = req.body;
+    const groupDTO: IGroupAttributes = req.body;
     const { id } = req.params;
     const group = await groupService.update({ ...groupDTO, id });
     group ? res.json(group) : res.status(404).send(`group ${id} not found`);
