@@ -1,6 +1,6 @@
 version: '3.8'
-#volumes:
-#  pg_project:
+volumes:
+  pg_project:
 services:
   pg_db:
     image: postgres
@@ -9,17 +9,18 @@ services:
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=postgres
       - POSTGRES_DB=stage
-#    volumes:
-#      - pg_project:/var/lib/postgresql/data
+    volumes:
+     - pg_project:/var/lib/postgresql/data
     ports:
       - ${POSTGRES_PORT:-5432}:5432
   typescript-backend-template:
     image: node:14-alpine
     environment:
-      - PORT=${PORT}
+      - PORT=${SERVER_PORT}
     ports:
-      - ${PORT}:${PORT}
+      - ${SERVER_PORT}:${SERVER_PORT}
     working_dir: /opt/typescript-backend-template
     volumes:
       - ".:/opt/typescript-backend-template"
-    command: npm run start:watch
+    command: npm run dev:seed
+
