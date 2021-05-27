@@ -17,13 +17,13 @@ services:
   typescript-backend-template:
     image: node:14-alpine
     environment:
-      - SERVER_PORT=5000
+      - SERVER_PORT=3000
       - POSTGRES_HOST=pg_db
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=postgres
       - POSTGRES_DB=stage
     ports:
-      - 5000:5000
+      - 3000:3000
     working_dir: /opt/typescript-backend-template
     volumes:
       - ".:/opt/typescript-backend-template"
