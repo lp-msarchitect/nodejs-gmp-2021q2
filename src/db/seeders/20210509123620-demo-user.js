@@ -30,7 +30,9 @@ module.exports = {
           updatedAt: new Date(),
         },
       ],
-      {},
+      {
+        ignoreDuplicates: true,
+      },
     );
   },
   down: async (queryInterface, Sequelize) => {

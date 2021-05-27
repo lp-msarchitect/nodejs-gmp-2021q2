@@ -6,21 +6,26 @@ services:
     image: postgres
     restart: always
     environment:
+      - POSTGRES_HOST=pg_db
       - POSTGRES_PASSWORD=secret
       - POSTGRES_USER=postgres
       - POSTGRES_DB=stage
     volumes:
      - pg_project:/var/lib/postgresql/data
     ports:
-      - ${POSTGRES_PORT:-5432}:5432
+      - 5432:5432
   typescript-backend-template:
     image: node:14-alpine
     environment:
-      - PORT=${SERVER_PORT}
+      - SERVER_PORT=5000
+      - POSTGRES_HOST=pg_db
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=stage
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+      - 5000:5000
     working_dir: /opt/typescript-backend-template
     volumes:
       - ".:/opt/typescript-backend-template"
-    command: npm run dev:seed
+    command: npm run dev:docker
 
