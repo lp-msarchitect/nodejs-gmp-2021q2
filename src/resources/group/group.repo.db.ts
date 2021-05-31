@@ -65,7 +65,19 @@ const addUsers = async (groupId: string, userIds: string[]): Promise<IGroupEntit
       }),
     );
     await t.commit();
-    return await Group.findByPk(groupId);
+    return await Group.findByPk(groupId, {
+      include: [
+        {
+          model: User,
+          as: 'users',
+          required: false,
+          attributes: ['id', 'login'],
+          through: {
+            attributes: [],
+          },
+        },
+      ],
+    });
   } catch (error) {
     console.log('error', error);
     await t.rollback();
