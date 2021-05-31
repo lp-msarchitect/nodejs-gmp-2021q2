@@ -25,3 +25,11 @@ db.sequelize
   .catch((error: Error) => {
     console.error('Unable to connect to the database:', error);
   });
+
+process.on('uncaughtException', (err) => {
+  console.error(`Caught global exception: ${err}`);
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error(`Unhandled rejection: ${reason}`);
+});
