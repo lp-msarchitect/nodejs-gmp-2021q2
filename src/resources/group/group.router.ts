@@ -38,10 +38,14 @@ groupsRouter.put(
 );
 
 groupsRouter.put('/:id/users', async (req: Request, res: Response, next: NextFunction) => {
-  const { users } = req.body;
-  const { id } = req.params;
-  const group = await groupService.addUsersToGroup(id, users);
-  group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+  try {
+    const { users } = req.body;
+    const { id } = req.params;
+    const group = await groupService.addUsersToGroup(id, users);
+    group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+  } catch (error) {
+    res.status(404).send(error.message);
+  }
 });
 
 groupsRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {

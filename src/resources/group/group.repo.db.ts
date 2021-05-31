@@ -53,21 +53,23 @@ const addUsers = async (groupId: string, userIds: string[]): Promise<IGroupEntit
 
   try {
     const group = await Group.findByPk(groupId);
-    if (group) {
-      await Promise.all(
-        userIds.map(async (userId) => {
+    if (!group) return null;
+    await Promise.all(
+      userIds.map(async (userId) => {
+        try {
           const user = await User.findByPk(userId);
           await group.addUser(user, { transaction: t });
-        }),
-      );
-      await t.commit();
-      return await Group.findByPk(groupId);
-    }
+        } catch {
+          throw new Error(`User with id ${userId} not found`);
+        }
+      }),
+    );
+    await t.commit();
+    return await Group.findByPk(groupId);
   } catch (error) {
     console.log('error', error);
-
     await t.rollback();
-    return null;
+    throw error;
   }
 };
 
