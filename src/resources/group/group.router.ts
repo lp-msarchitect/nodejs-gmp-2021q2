@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, Router } from 'express';
 import groupService from './group.service';
 import { validate, groupScheme } from '../../common/validate';
 import { IGroupAttributes } from 'types/group';
-import { LoggingResponse } from 'types/express';
+import { LoggingResponse } from 'types/server';
 
 export const groupsRouter = Router();
 

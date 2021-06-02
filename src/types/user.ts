@@ -1,4 +1,5 @@
 import { Optional } from 'sequelize/types';
+import { ControllerMethod } from './server';
 export interface IUserAttributes {
   id: string;
   login: string;
