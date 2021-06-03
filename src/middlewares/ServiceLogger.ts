@@ -1,10 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, NextFunction } from 'express';
 import { ServiceLogger, LoggingResponse } from 'types/server';
+import logger from '../common/logger';
 
 const createServiceLogger = (): ServiceLogger => {
   return {
     log(method: string, args: Record<string, unknown>): void {
-      console.log(`Call service method: ${method}\nWith args: ${JSON.stringify(args, null, 2)}\n`);
+      logger.info(`Call service method: ${method}\nWith args: ${JSON.stringify(args, null, 2)}\n`);
     },
   };
 };

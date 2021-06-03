@@ -12,7 +12,7 @@
     "seed": "npx sequelize-cli db:seed:all",
     "dev:seed": "npm run migration && npm run seed && npm run start:watch",
     "dev:no-seed": "npm run start:watch",
-    "dev:docker":"npm run migration && npm run seed && nodemon -r dotenv/config index.js",
+    "dev:docker": "npm run migration && npm run seed && nodemon -r dotenv/config index.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "tsc-check": "tsc --noEmit",
@@ -115,6 +115,7 @@
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3"
   }
 }
