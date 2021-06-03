@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, NextFunction, Router } from 'express';
 import userService from './user.service';
 import { validate, userScheme } from '../../common/validate';
-import { IUserAttributes } from 'types/user';
 import { LoggingResponse } from 'types/server';
 import { UserController } from './user.controller';
 
