@@ -1,18 +1,23 @@
-import { DataTypes, Model, Sequelize } from 'sequelize';
+'use strict';
+import { Model } from 'sequelize';
 import { IUserAttributes, TUserCreationAttributes } from 'types/user';
 
-export class User
-  extends Model<IUserAttributes, TUserCreationAttributes>
-  implements IUserAttributes {
+class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
   public id: string;
   public login!: string;
   public password!: string;
   public age!: number;
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
+  static associate(models: any): void {
+    User.belongsToMany(models.Group, {
+      through: 'UserGroup',
+      as: 'groups',
+      foreignKey: 'userId',
+      otherKey: 'groupId',
+    });
+  }
 }
 
-export const initUserModel = (sequelize: Sequelize): void => {
+module.exports = (sequelize: any, DataTypes: any): typeof User => {
   User.init(
     {
       id: {
@@ -29,15 +34,15 @@ export const initUserModel = (sequelize: Sequelize): void => {
         allowNull: false,
       },
       age: {
-        type: DataTypes.SMALLINT,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },
     {
-      modelName: 'User',
       sequelize,
+      modelName: 'User',
       tableName: 'users',
-      timestamps: false,
     },
   );
+  return User;
 };

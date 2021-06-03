@@ -8,6 +8,11 @@
     "start": "node index.js",
     "start:watch": "nodemon",
     "start:watch-debug": "nodemon --config nodemon-debug.json",
+    "migration": "npx sequelize-cli db:migrate",
+    "seed": "npx sequelize-cli db:seed:all",
+    "dev:seed": "npm run migration && npm run seed && npm run start:watch",
+    "dev:no-seed": "npm run start:watch",
+    "dev:docker":"npm run migration && npm run seed && nodemon -r dotenv/config index.js",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "tsc-check": "tsc --noEmit",
@@ -55,6 +60,7 @@
     "lint-staged": "^10.5.4",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
+    "sequelize-cli": "^6.2.0",
     "ts-jest": "^26.5.2",
     "ts-node": "^9.1.1",
     "typescript": "~4.1.5"
@@ -103,6 +109,7 @@
   },
   "dependencies": {
     "csvtojson": "^2.0.10",
+    "dotenv": "^9.0.1",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "pg": "^8.6.0",

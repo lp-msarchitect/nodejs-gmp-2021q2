@@ -1,40 +1,4 @@
-import { Optional, Model } from 'sequelize/types';
-
-// export type User = {
-//   id: string;
-//   login: string;
-//   password: string;
-//   age: number;
-//   isDeleted: boolean;
-// };
-
-export interface UserDto {
-  readonly id: string;
-  readonly login: string;
-  readonly password: string;
-  readonly age: number;
-}
-
-export type TUserResponse = {
-  id: string;
-  login: string;
-  age: number;
-};
-
-export type TUserRequest = {
-  id?: string;
-  login: string;
-  password: string;
-  age: number;
-};
-
-export type TUserUpdateRequest = {
-  id: string;
-  login?: string;
-  password?: string;
-  age?: number;
-};
-
+import { Optional } from 'sequelize/types';
 export interface IUserAttributes {
   id: string;
   login: string;
@@ -43,3 +7,14 @@ export interface IUserAttributes {
 }
 
 export type TUserCreationAttributes = Optional<IUserAttributes, 'id'>;
+
+export type TUserUpdateRequest = Partial<IUserAttributes>;
+
+export interface IUserEntity extends IUserAttributes {
+  groups: {
+    id: string;
+    name: string;
+  }[];
+}
+
+export type TUserResponse = Omit<IUserEntity, 'password'>;
