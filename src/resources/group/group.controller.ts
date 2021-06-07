@@ -1,11 +1,11 @@
 import { Request } from 'express';
 import { IGroupAttributes } from 'types/group';
 import { LoggingResponse } from 'types/server';
-import groupService from './group.service';
+import GroupService from './group.service';
 
 export class GroupController {
-  private service: typeof groupService;
-  constructor(service: typeof groupService) {
+  private service: GroupService;
+  constructor(service: GroupService) {
     this.service = service;
   }
   async addGroup(req: Request, res: LoggingResponse): Promise<void> {

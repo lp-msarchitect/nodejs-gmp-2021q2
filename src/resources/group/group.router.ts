@@ -1,10 +1,12 @@
 import { Request, NextFunction, Router } from 'express';
-import groupService from './group.service';
+import GroupService from './group.service';
 import { validate, groupScheme } from '../../common/validate';
 import { LoggingResponse } from 'types/server';
 import { GroupController } from './group.controller';
+import groupRepoDb from './group.repo.db';
 
 export const groupsRouter = Router();
+const groupService = new GroupService(groupRepoDb);
 const groupController = new GroupController(groupService);
 
 groupsRouter.get('/', async (req: Request, res: LoggingResponse, next: NextFunction) => {

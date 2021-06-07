@@ -1,10 +1,12 @@
 import { Request, NextFunction, Router } from 'express';
-import userService from './user.service';
+import UserService from './user.service';
 import { validate, userScheme } from '../../common/validate';
 import { LoggingResponse } from 'types/server';
 import { UserController } from './user.controller';
+import userRepo from './user.repo.db';
 
 export const usersRouter = Router();
+const userService = new UserService(userRepo);
 const userController = new UserController(userService);
 
 usersRouter.get('/', async (req: Request, res: LoggingResponse, next: NextFunction) => {
