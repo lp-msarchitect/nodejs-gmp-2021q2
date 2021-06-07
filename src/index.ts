@@ -4,7 +4,7 @@ import { usersRouter } from './resources/user';
 import { groupsRouter } from './resources/group';
 import { attachServiceLogger } from './middlewares/ServiceLogger';
 import { errorHandler } from './middlewares/ErorrHandler';
-import logger from 'common/logger';
+import logger from './common/logger';
 
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
