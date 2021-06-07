@@ -4,6 +4,7 @@ import { usersRouter } from './resources/user';
 import { groupsRouter } from './resources/group';
 import { attachServiceLogger } from './middlewares/ServiceLogger';
 import { errorHandler } from './middlewares/ErorrHandler';
+import logger from 'common/logger';
 
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
@@ -17,19 +18,19 @@ app.use(errorHandler);
 db.sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    logger.info('Connection has been established successfully.');
     app.listen(port, () => {
-      console.log(`Server listening at http://localhost:${port}`);
+      logger.info(`Server listening at http://localhost:${port}`);
     });
   })
   .catch((error: Error) => {
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:', error);
   });
 
 process.on('uncaughtException', (err) => {
-  console.error(`Caught global exception: ${err}`);
+  logger.error(`Caught global exception: ${err}`);
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.error(`Unhandled rejection: ${reason}`);
+  logger.error(`Unhandled rejection: ${reason}`);
 });
