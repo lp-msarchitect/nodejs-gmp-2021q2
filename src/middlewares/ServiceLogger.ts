@@ -5,7 +5,9 @@ import logger from '../common/logger';
 const createServiceLogger = (): ServiceLogger => {
   return {
     log(method: string, args: Record<string, unknown>): void {
-      logger.info(`Call service method: ${method}\nWith args: ${JSON.stringify(args, null, 2)}\n`);
+      logger.info(
+        `\nCall service method: ${method}\nWith args: ${JSON.stringify(args, null, 2)}\n`,
+      );
     },
   };
 };
@@ -16,5 +18,10 @@ export const attachServiceLogger = (
   next: NextFunction,
 ): void => {
   res.serviceLogger = createServiceLogger();
+  next();
+};
+
+export const requestLogger = (req: Request, res: LoggingResponse, next: NextFunction): void => {
+  logger.info(`[${req.method}] - ${req.url}`);
   next();
 };

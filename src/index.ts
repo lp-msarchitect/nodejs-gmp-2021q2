@@ -2,7 +2,7 @@ import express from 'express';
 import db from './db/models';
 import { usersRouter } from './resources/user';
 import { groupsRouter } from './resources/group';
-import { attachServiceLogger } from './middlewares/ServiceLogger';
+import { attachServiceLogger, requestLogger } from './middlewares/ServiceLogger';
 import { errorHandler } from './middlewares/ErorrHandler';
 import logger from './common/logger';
 
@@ -10,6 +10,7 @@ const app = express();
 const port = process.env.SERVER_PORT || 3000;
 
 app.use(express.json());
+app.use(requestLogger);
 app.use(attachServiceLogger);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);

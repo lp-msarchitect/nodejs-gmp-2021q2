@@ -1,4 +1,8 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format, transports, addColors } from 'winston';
+
+addColors({
+  error: 'red',
+});
 
 export default createLogger({
   transports: [
@@ -6,5 +10,11 @@ export default createLogger({
       level: 'info',
     }),
   ],
-  format: format.combine(format.printf((info) => `${info.level}:\n${info.message}`)),
+  format: format.combine(
+    format.colorize(),
+    format.timestamp({
+      format: 'MMM-DD-YYYY HH:mm:ss',
+    }),
+    format.printf((info) => `${info.level}: ${[info.timestamp]}: ${info.message}`),
+  ),
 });
