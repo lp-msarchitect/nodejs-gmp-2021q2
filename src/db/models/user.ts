@@ -2,7 +2,9 @@
 import { Model } from 'sequelize';
 import { IUserAttributes, TUserCreationAttributes } from 'types/user';
 
-class User extends Model<IUserAttributes, TUserCreationAttributes> implements IUserAttributes {
+export class User
+  extends Model<IUserAttributes, TUserCreationAttributes>
+  implements IUserAttributes {
   public id: string;
   public login!: string;
   public password!: string;

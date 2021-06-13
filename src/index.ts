@@ -5,6 +5,7 @@ import { groupsRouter } from './resources/group';
 import { attachServiceLogger, requestLogger } from './middlewares/ServiceLogger';
 import { errorHandler } from './middlewares/ErorrHandler';
 import logger from './common/logger';
+import { authRouter } from './auth/auth.router';
 
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
@@ -14,6 +15,7 @@ app.use(requestLogger);
 app.use(attachServiceLogger);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
+app.use('/', authRouter);
 app.use(errorHandler);
 
 db.sequelize
