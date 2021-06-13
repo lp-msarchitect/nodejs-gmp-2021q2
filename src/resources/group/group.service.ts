@@ -1,28 +1,46 @@
+import { methodLog } from '../../common/decorators';
 import { IGroupAttributes, TGroupCreationAttributes, TGroupResponse } from 'types/group';
 import groupsRepo from './group.repo.db';
 
-const getAll = async (): Promise<TGroupResponse[]> => {
-  const groups = await groupsRepo.getAll();
-  console.log(groups);
-  return groups;
-};
-
-const getItemById = (id: string): Promise<TGroupResponse> => groupsRepo.getItemById(id);
-
-const create = (group: IGroupAttributes): Promise<TGroupResponse> => groupsRepo.create(group);
-
-const update = async (group: TGroupCreationAttributes): Promise<TGroupResponse> => {
-  const [count, updatedGroups] = await groupsRepo.update(group);
-  if (count !== 0) {
-    return updatedGroups.pop();
+export default class GroupService {
+  private repo: typeof groupsRepo;
+  constructor(repo: typeof groupsRepo) {
+    this.repo = repo;
   }
-  return null;
-};
 
-const remove = (id: string): Promise<number> => groupsRepo.remove(id);
+  @methodLog
+  async getAll(): Promise<TGroupResponse[]> {
+    const groups = await this.repo.getAll();
+    console.log(groups);
+    return groups;
+  }
 
-const addUsersToGroup = (groupId: string, userIds: string[]): Promise<TGroupResponse> => {
-  return groupsRepo.addUsers(groupId, userIds);
-};
+  @methodLog
+  async getItemById(id: string): Promise<TGroupResponse> {
+    return this.repo.getItemById(id);
+  }
 
-export default { getAll, getItemById, create, update, remove, addUsersToGroup };
+  @methodLog
+  async create(group: IGroupAttributes): Promise<TGroupResponse> {
+    return this.repo.create(group);
+  }
+
+  @methodLog
+  async update(group: TGroupCreationAttributes): Promise<TGroupResponse> {
+    const [count, updatedGroups] = await this.repo.update(group);
+    if (count !== 0) {
+      return updatedGroups.pop();
+    }
+    return null;
+  }
+
+  @methodLog
+  async remove(id: string): Promise<number> {
+    return this.repo.remove(id);
+  }
+
+  @methodLog
+  async addUsersToGroup(groupId: string, userIds: string[]): Promise<TGroupResponse> {
+    return this.repo.addUsers(groupId, userIds);
+  }
+}

@@ -1,55 +1,48 @@
-import { Request, Response, NextFunction, Router } from 'express';
-import groupService from './group.service';
+import { Request, NextFunction, Router } from 'express';
+import GroupService from './group.service';
 import { validate, groupScheme } from '../../common/validate';
-import { IGroupAttributes } from 'types/group';
+import { LoggingResponse } from 'types/server';
+import { GroupController } from './group.controller';
+import groupRepoDb from './group.repo.db';
 
 export const groupsRouter = Router();
+const groupService = new GroupService(groupRepoDb);
+const groupController = new GroupController(groupService);
 
-groupsRouter.get('/', async (req: Request, res: Response) => {
-  const groupsList = await groupService.getAll();
-  res.json(groupsList);
+groupsRouter.get('/', async (req: Request, res: LoggingResponse, next: NextFunction) => {
+  await groupController.getGroups(req, res);
+  next();
 });
 
-groupsRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params;
-  const group = await groupService.getItemById(id);
-  group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+groupsRouter.get('/:id', async (req: Request, res: LoggingResponse, next: NextFunction) => {
+  await groupController.getOneGroup(req, res);
+  next();
 });
 
 groupsRouter.post(
   '/',
   validate(groupScheme),
-  async (req: Request, res: Response, next: NextFunction) => {
-    const groupDTO: IGroupAttributes = req.body;
-    const group = await groupService.create(groupDTO);
-    res.status(201).json(group);
+  async (req: Request, res: LoggingResponse, next: NextFunction) => {
+    await groupController.addGroup(req, res);
+    next();
   },
 );
 
 groupsRouter.put(
   '/:id',
   validate(groupScheme),
-  async (req: Request, res: Response, next: NextFunction) => {
-    const groupDTO: IGroupAttributes = req.body;
-    const { id } = req.params;
-    const group = await groupService.update({ ...groupDTO, id });
-    group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+  async (req: Request, res: LoggingResponse, next: NextFunction) => {
+    await groupController.updateGroup(req, res);
+    next();
   },
 );
 
-groupsRouter.put('/:id/users', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { users } = req.body;
-    const { id } = req.params;
-    const group = await groupService.addUsersToGroup(id, users);
-    group ? res.json(group) : res.status(404).send(`group ${id} not found`);
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
+groupsRouter.put('/:id/users', async (req: Request, res: LoggingResponse, next: NextFunction) => {
+  await groupController.addUsersToGroup(req, res);
+  next();
 });
 
-groupsRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params;
-  const isDeleted = await groupService.remove(id);
-  isDeleted ? res.send(`group ${id} was deleted`) : res.status(404).send(`group ${id} not found`);
+groupsRouter.delete('/:id', async (req: Request, res: LoggingResponse, next: NextFunction) => {
+  await groupController.deleteGroup(req, res);
+  next();
 });
