@@ -13,7 +13,8 @@ export class AuthController {
     const token = await this.service.login(login, password);
     if (token) {
       res.send({ token });
+    } else {
+      res.status(401).send('Bad credentials');
     }
-    res.status(401).send('Bad credentials');
   }
 }
