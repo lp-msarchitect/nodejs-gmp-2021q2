@@ -6,6 +6,7 @@ import { attachServiceLogger, requestLogger } from './middlewares/ServiceLogger'
 import { errorHandler } from './middlewares/ErorrHandler';
 import logger from './common/logger';
 import { authRouter } from './auth/auth.router';
+import { authToken } from './middlewares/auth';
 
 const app = express();
 const port = process.env.SERVER_PORT || 3000;
@@ -13,6 +14,7 @@ const port = process.env.SERVER_PORT || 3000;
 app.use(express.json());
 app.use(requestLogger);
 app.use(attachServiceLogger);
+app.use(authToken);
 app.use('/users', usersRouter);
 app.use('/groups', groupsRouter);
 app.use('/', authRouter);
