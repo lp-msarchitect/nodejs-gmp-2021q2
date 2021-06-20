@@ -43,7 +43,7 @@ export default class UserService {
   }
 
   @methodLog
-  async updateUser(user: TUserUpdateRequest): Promise<TUserResponse> {
+  async updateUser(user: TUserUpdateRequest): Promise<TUserResponse | null> {
     try {
       const [count, updatedUser] = await this.repo.updateUser(user);
       if (count > 0) {
