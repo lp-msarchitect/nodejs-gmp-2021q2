@@ -1,3 +1,9 @@
+/**
+ * Tests Foo class
+ *
+ * @group unit/classes/UserController
+ */
+
 import { UserController } from '../user.controller';
 import { Request } from 'express';
 import UserService from '../user.service';
