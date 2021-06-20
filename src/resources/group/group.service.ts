@@ -26,7 +26,7 @@ export default class GroupService {
   }
 
   @methodLog
-  async update(group: TGroupCreationAttributes): Promise<TGroupResponse> {
+  async update(group: TGroupCreationAttributes): Promise<TGroupResponse | null> {
     const [count, updatedGroups] = await this.repo.update(group);
     if (count !== 0) {
       return updatedGroups.pop();
