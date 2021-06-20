@@ -2,7 +2,7 @@ import { Request, NextFunction } from 'express';
 import { ServiceLogger, LoggingResponse } from 'types/server';
 import logger from '../common/logger';
 
-const createServiceLogger = (): ServiceLogger => {
+export const createServiceLogger = (): ServiceLogger => {
   return {
     log(method: string, args: Record<string, unknown>): void {
       logger.info(
