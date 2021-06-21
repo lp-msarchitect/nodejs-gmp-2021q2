@@ -1,5 +1,4 @@
 import { Optional } from 'sequelize/types';
-import { ControllerMethod } from './server';
 export interface IUserAttributes {
   id: string;
   login: string;
@@ -15,7 +14,7 @@ export interface IUserEntity extends IUserAttributes {
   groups: {
     id: string;
     name: string;
-  }[];
+  };
 }
 
 export type TUserResponse = Omit<IUserEntity, 'password'>;

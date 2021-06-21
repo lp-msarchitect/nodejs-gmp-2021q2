@@ -1,7 +1,19 @@
 # NodeJS Mentoring Program
 ## Documentation
 API documentation: https://documenter.getpostman.com/view/12622244/TzCQa68w
-
+## Authorization
+HTTP Authorization header should be: 
+```
+Bearer jwttoken
+```
+Get jwt token on the /login route
+Request body
+```
+{
+    "login": "userlogin",
+    "password": "userpassword"
+}
+```
 ## Environment
 Create .env file in the root project folder. Set your own credentials.
 Example:
@@ -13,6 +25,8 @@ POSTGRES_PORT=5432
 POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=db_name
+
+TOKEN_SECRET=secret
 ```
 
 ## Setup

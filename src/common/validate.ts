@@ -28,3 +28,8 @@ export const groupScheme = Joi.object({
     .items(Joi.string())
     .has(['READ', 'WRITE', 'DELETE', 'SHARE', 'UPLOAD_FILES']),
 });
+
+export const signInScheme = Joi.object({
+  login: Joi.string().required(),
+  password: Joi.string().required(),
+});
