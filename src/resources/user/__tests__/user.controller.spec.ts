@@ -12,7 +12,6 @@ import { mockRequest, mockResponse } from '../../../utils/mockInterseptor';
 import { TUserResponse } from 'types/user';
 import { LoggingResponse } from 'types/server';
 
-// jest.mock('../user.service');
 const service = new UserService(userRepo);
 const controller = new UserController(service);
 

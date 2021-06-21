@@ -47,11 +47,13 @@ beforeAll((done) => {
 });
 
 describe('/users', () => {
-  process.env.TOKEN_SECRET = 'secret';
   test('It should response the GET method with users list', (done) => {
+    // Assert
+    // Act
     request(app)
       .get('/users')
       .set('Authorization', `Bearer ${token}`)
+      // Arrange
       .expect(
         200,
         [
@@ -66,20 +68,27 @@ describe('/users', () => {
       );
   });
   test('It should response the POST method with created user', (done) => {
+    // Assert
     const userRequest = {
       login: 'testuser',
       password: 'aaaaa3',
       age: 32,
     };
-    request(app).post('/users').set('Authorization', `Bearer ${token}`).send(userRequest).expect(
-      201,
-      {
-        id: '$$',
-        login: userRequest.login,
-        age: userRequest.age,
-        groups: [],
-      },
-      done,
-    );
+    // Act
+    request(app)
+      .post('/users')
+      .set('Authorization', `Bearer ${token}`)
+      .send(userRequest)
+      //Arrange
+      .expect(
+        201,
+        {
+          id: '$$',
+          login: userRequest.login,
+          age: userRequest.age,
+          groups: [],
+        },
+        done,
+      );
   });
 });
