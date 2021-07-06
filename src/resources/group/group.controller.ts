@@ -24,7 +24,7 @@ export class GroupController {
     const { id } = req.params;
     res.serviceLogger.log('update', { groupDTO: { ...groupDTO, id } });
     const group = await this.service.update({ ...groupDTO, id });
-    group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+    group ? res.status(201).json(group) : res.status(404).send(`group ${id} not found`);
   }
 
   @methodLog
@@ -57,7 +57,7 @@ export class GroupController {
       const { id } = req.params;
       res.serviceLogger.log('addUsersToGroup', { id, users });
       const group = await this.service.addUsersToGroup(id, users);
-      group ? res.json(group) : res.status(404).send(`group ${id} not found`);
+      group ? res.status(201).json(group) : res.status(404).send(`group ${id} not found`);
     } catch (error) {
       res.status(404).send(error.message);
     }

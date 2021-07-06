@@ -21,11 +21,13 @@ export class UserController {
   @methodLog
   async updateUser(req: Request, res: LoggingResponse): Promise<void> {
     const userDTO: IUserAttributes = req.body;
-    res.serviceLogger.log('createUser', {
+    const { id } = req.params;
+    userDTO.id = id;
+    res.serviceLogger.log('updateUser', {
       userDTO,
     });
-    const user = await this.service.createUser(userDTO);
-    res.status(201).json(user);
+    const user = await this.service.updateUser(userDTO);
+    user ? res.status(201).json(user) : res.status(404).send(`user ${userDTO.id} not found`);
   }
   @methodLog
   async deleteUser(req: Request, res: LoggingResponse): Promise<void> {

@@ -8,6 +8,7 @@ export default createLogger({
   transports: [
     new transports.Console({
       level: 'info',
+      silent: process.env.NODE_ENV === 'test',
     }),
   ],
   format: format.combine(

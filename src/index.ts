@@ -1,26 +1,8 @@
-import express from 'express';
-import cors from 'cors';
 import db from './db/models';
-import { usersRouter } from './resources/user';
-import { groupsRouter } from './resources/group';
-import { attachServiceLogger, requestLogger } from './middlewares/ServiceLogger';
-import { errorHandler } from './middlewares/ErorrHandler';
+import app from './app';
 import logger from './common/logger';
-import { authRouter } from './auth/auth.router';
-import { authToken } from './middlewares/auth';
 
-const app = express();
 const port = process.env.SERVER_PORT || 3000;
-
-app.use(express.json());
-app.use(cors());
-app.use(requestLogger);
-app.use(attachServiceLogger);
-app.use(authToken);
-app.use('/users', usersRouter);
-app.use('/groups', groupsRouter);
-app.use('/', authRouter);
-app.use(errorHandler);
 
 db.sequelize
   .authenticate()
